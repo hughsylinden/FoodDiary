@@ -1,8 +1,8 @@
-const { FoodDiary } = require('../models');
+const { User } = require('../models');
 
 async function create(req, res) {
   const data = req.body;
-  FoodDiary
+  User
     .create(data)
     .then((obj) => res.status(201).json(obj.dataValues))
     .catch(() => {
@@ -11,13 +11,13 @@ async function create(req, res) {
 }
 
 async function readOne(req, res) {
-  FoodDiary
+  User
     .findByPk(req.params.id)
     .then((obj) => {
       if (!obj) {
         res
         .status(404)
-        .json({ error: `The ${FoodDiary.name.toLowerCase()} could not be found.` })
+        .json({ error: `The ${User.name.toLowerCase()} could not be found.` })
       } else {
         res.status(200).json(obj.dataValues);
       }
@@ -29,23 +29,13 @@ async function readOne(req, res) {
     );
 }
 async function read(req, res) {
-  FoodDiary.findAll().then((items) => {
+  User.findAll().then((items) => {
     res.status(200).json(items);
   });
 }
 
-  let n  = 0
-
-async function readAll(req, res) {
-  console.log(n++)
-  FoodDiary.findAll({where: { UserId: req.params.id }}).then((items) => {
-    res.status(200).json(items);
-  }); 
-
-}
-
 async function update(req, res) {
-  FoodDiary
+  User
     .update(req.body, { where: { id: req.params.id } })
     .then((updatedRows) => {
       if (updatedRows == 0) {
@@ -57,12 +47,12 @@ async function update(req, res) {
     .catch(() =>
       res
         .status(404)
-        .json({ error: `The ${FoodDiary.name.toLowerCase()} could not be found.` })
+        .json({ error: `The ${User.name.toLowerCase()} could not be found.` })
     );
 }
 
 async function destroy(req, res) {
-  FoodDiary
+  User
     .destroy({ where: { id: req.params.id } })
     .then((deletedRows) => {
       if (!deletedRows) {
@@ -74,8 +64,8 @@ async function destroy(req, res) {
     .catch(() =>
       res
         .status(404)
-        .json({ error: `The ${FoodDiary.name.toLowerCase()} could not be found.` })
+        .json({ error: `The ${User.name.toLowerCase()} could not be found.` })
     );
 }
 
-module.exports = { create, read, readOne, update, destroy, readAll };
+module.exports = { create, read, readOne, update, destroy };

@@ -8,5 +8,6 @@ FoodDiaryRouter.get('/', FoodDiaryController.read);
 FoodDiaryRouter.get('/:id', FoodDiaryController.readOne);
 FoodDiaryRouter.patch('/:id', FoodDiaryController.update);
 FoodDiaryRouter.delete('/:id', FoodDiaryController.destroy);
+FoodDiaryRouter.get('/:id/all', FoodDiaryController.readAll);
 
 module.exports = FoodDiaryRouter;

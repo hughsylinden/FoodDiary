@@ -1,7 +1,6 @@
 module.exports = (connection, DataTypes) => {
   const schema = {
-    user: DataTypes.STRING,
-    //meals: DataTypes.STRING,
+    name: DataTypes.STRING,
   };
 
   const FoodDiaryModel = connection.define('FoodDiary', schema);
