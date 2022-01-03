@@ -5,6 +5,7 @@ const MealRouter = express.Router();
 
 MealRouter.post('/', MealController.create);
 MealRouter.get('/', MealController.read);
+MealRouter.get('/search/:FoodDiaryId', MealController.readByFoodDiaryId);
 MealRouter.get('/:id', MealController.readOne);
 MealRouter.patch('/:id', MealController.update);
 MealRouter.delete('/:id', MealController.destroy);
