@@ -1,5 +1,17 @@
 const { Meal } = require('../models');
 
+async function readByFoodDiaryId(req, res) {
+  const foodDiaryId = req.params.FoodDiaryId
+  Meal
+    .findAll({where:{FoodDiaryId: foodDiaryId} })
+    .then((items) => {
+      res.status(200).json(items);
+    })
+    .catch(() => {
+      res.status(500).send();
+    });
+}
+
 async function create(req, res) {
   const data = req.body;
   Meal
@@ -68,4 +80,4 @@ async function destroy(req, res) {
     );
 }
 
-module.exports = { create, read, readOne, update, destroy };
+module.exports = { create, read, readOne, update, destroy,readByFoodDiaryId };
