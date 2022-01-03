@@ -1,21 +1,29 @@
 const { User } = require('../models');
 
 async function signUp(req, res) {
-  User.create({
+  User
+  .create({
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
   })
-    .then((user) => {
-      res.status(201).send({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-      });      
-    })
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-    });
+  .then((user) => {
+    res.status(201).send({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    });      
+  })
+  .catch((err) => {
+    if(err.name==='SequelizeUniqueConstraintError'){    
+      res.status(500).json({ name: 'Something failed!' })
+
+    }else{
+      console.log('asdas')
+      res.status(500).send({ name: 'Something failed!' })
+
+    }
+  });
 }
 
 async function signIn(req, res) {
