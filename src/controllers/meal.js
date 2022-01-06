@@ -14,6 +14,7 @@ async function readByFoodDiaryId(req, res) {
 
 async function create(req, res) {
   const data = req.body;
+
   Meal
     .create(data)
     .then((obj) => res.status(201).json(obj.dataValues))
