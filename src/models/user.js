@@ -1,8 +1,9 @@
 module.exports = (connection, DataTypes) => {
-  const schema = {  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
+  const schema = {  
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
     },
     password: DataTypes.STRING,    
   };
