@@ -4,14 +4,12 @@ async function signUp(req, res) {
   User
   .create({
     username: req.body.username,
-    email: req.body.email,
     password: req.body.password,
   })
   .then((user) => {
     res.status(201).send({
       id: user.id,
       username: user.username,
-      email: user.email,
     });      
   })
   .catch((err) => {
