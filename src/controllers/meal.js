@@ -1,9 +1,26 @@
 const { Meal } = require('../models');
+const { Op } = require('sequelize');
+
 
 async function readByFoodDiaryId(req, res) {
   const foodDiaryId = req.params.FoodDiaryId
   Meal
     .findAll({where:{FoodDiaryId: foodDiaryId} })
+    .then((items) => {
+      res.status(200).json(items);
+    })
+    .catch(() => {
+      res.status(500).send();
+    });
+}
+
+async function readByFoodDiaryIdAndDate(req, res) {
+  /* const foodDiaryId = req.body.FoodDiaryId
+  const date = req.body.date */
+  const startDate = new Date(`2022-01-06 00:00:00`);
+  const endDate = new Date("2022-01-07 00:00:00");
+  Meal
+    .findAll(({where : {time : {[Op.between] : [startDate , endDate ]}}}))
     .then((items) => {
       res.status(200).json(items);
     })
@@ -81,4 +98,4 @@ async function destroy(req, res) {
     );
 }
 
-module.exports = { create, read, readOne, update, destroy,readByFoodDiaryId };
+module.exports = { create, read, readOne, update, destroy,readByFoodDiaryId, readByFoodDiaryIdAndDate };
