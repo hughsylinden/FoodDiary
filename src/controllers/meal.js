@@ -15,12 +15,13 @@ async function readByFoodDiaryId(req, res) {
 }
 
 async function readByFoodDiaryIdAndDate(req, res) {
-  /* const foodDiaryId = req.body.FoodDiaryId
-  const date = req.body.date */
-  const startDate = new Date(`2022-01-06 00:00:00`);
-  const endDate = new Date("2022-01-07 00:00:00");
+  const startDate = new Date(req.body.date+" 00:00:00");  
+  let endDate = new Date(req.body.date);
+  
+  endDate.setDate(startDate.getDate()+1)
+  
   Meal
-    .findAll(({where : {time : {[Op.between] : [startDate , endDate ]}}}))
+    .findAll(({where : {FoodDiaryId: req.body.FoodDiaryId, time : {[Op.between] : [startDate , endDate ]}}}))
     .then((items) => {
       res.status(200).json(items);
     })
