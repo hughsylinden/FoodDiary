@@ -30,6 +30,38 @@ async function readByFoodDiaryIdAndDate(req, res) {
     });
 }
 
+async function readByFoodDiaryIdAndMonth(req, res) {
+  const startDate = new Date(req.body.date);    
+  let startOfMonthDate = new Date(startDate.getFullYear(), startDate.getMonth(),2);
+  startOfMonthDate.setUTCHours(0,0,0,0);
+  let endOfMonthDate = new Date(startDate.getFullYear(), startDate.getMonth()+1,1);
+  endOfMonthDate.setUTCHours(23,59,59,999);
+  Meal
+    .findAll(({where : {FoodDiaryId: req.body.FoodDiaryId, time : {[Op.between] : [startOfMonthDate , endOfMonthDate ]}}}))
+    .then((items) => {
+      res.status(200).json(items);
+    })
+    .catch(() => {
+      res.status(500).send();
+    });
+}
+
+async function getAllMealsInYear(req, res) {
+  const startDate = new Date(req.body.date);    
+  let startOfMonthDate = new Date(startDate.getFullYear(),0,2);
+  startOfMonthDate.setUTCHours(0,0,0,0);
+  let endOfMonthDate = new Date(startDate.getFullYear(),12);
+  endOfMonthDate.setUTCHours(23,59,59,999);
+  Meal
+    .findAll(({where : {FoodDiaryId: req.body.FoodDiaryId, time : {[Op.between] : [startOfMonthDate , endOfMonthDate ]}}}))
+    .then((items) => {
+      res.status(200).json(items);
+    })
+    .catch(() => {
+      res.status(500).send();
+    });
+}
+
 async function create(req, res) {
   const data = req.body;
 
@@ -99,4 +131,4 @@ async function destroy(req, res) {
     );
 }
 
-module.exports = { create, read, readOne, update, destroy,readByFoodDiaryId, readByFoodDiaryIdAndDate };
+module.exports = { create, read, readOne, update, destroy,readByFoodDiaryId, readByFoodDiaryIdAndDate, readByFoodDiaryIdAndMonth, getAllMealsInYear };
