@@ -9,6 +9,7 @@ MealRouter.get('/search/:FoodDiaryId', MealController.readByFoodDiaryId);
 MealRouter.post('/searchbydate/', MealController.readByFoodDiaryIdAndDate);
 MealRouter.post('/searchbymonth/', MealController.readByFoodDiaryIdAndMonth);
 MealRouter.post('/searchbyyear/', MealController.getAllMealsInYear);
+MealRouter.post('/test/', MealController.getDailyCalorieIntake);
 MealRouter.get('/:id', MealController.readOne);
 MealRouter.patch('/:id', MealController.update);
 MealRouter.delete('/:id', MealController.destroy);

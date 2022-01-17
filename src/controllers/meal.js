@@ -14,6 +14,25 @@ async function readByFoodDiaryId(req, res) {
     });
 }
 
+async function getDailyCalorieIntake(req, res) {
+  const startDate = new Date(req.body.date);    
+  let startOfMonthDate = new Date(startDate.getFullYear(), startDate.getMonth(),2);
+  startOfMonthDate.setUTCHours(0,0,0,0);
+  let endOfMonthDate = new Date(startDate.getFullYear(), startDate.getMonth()+1,1);
+  endOfMonthDate.setUTCHours(23,59,59,999);
+  console.log(startOfMonthDate)
+  console.log(endOfMonthDate)
+  
+  Meal
+    .findAll(({where : {FoodDiaryId: req.body.FoodDiaryId, time : {[Op.between] : [startDate , endOfMonthDate ]}}}))
+    .then((items) => {
+      res.status(200).json(items);
+    })
+    .catch(() => {
+      res.status(500).send();
+    });
+}
+
 async function readByFoodDiaryIdAndDate(req, res) {
   const startDate = new Date(req.body.date+" 00:00:00");  
   let endDate = new Date(req.body.date);
@@ -131,4 +150,4 @@ async function destroy(req, res) {
     );
 }
 
-module.exports = { create, read, readOne, update, destroy,readByFoodDiaryId, readByFoodDiaryIdAndDate, readByFoodDiaryIdAndMonth, getAllMealsInYear };
+module.exports = { create, read, readOne, update, destroy,readByFoodDiaryId, readByFoodDiaryIdAndDate, readByFoodDiaryIdAndMonth, getAllMealsInYear, getDailyCalorieIntake };
