@@ -20,8 +20,6 @@ async function getDailyCalorieIntake(req, res) {
   startOfMonthDate.setUTCHours(0,0,0,0);
   let endOfMonthDate = new Date(startDate.getFullYear(), startDate.getMonth()+1,1);
   endOfMonthDate.setUTCHours(23,59,59,999);
-  console.log(startOfMonthDate)
-  console.log(endOfMonthDate)
   
   Meal
     .findAll(({where : {FoodDiaryId: req.body.FoodDiaryId, time : {[Op.between] : [startDate , endOfMonthDate ]}}}))
