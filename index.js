@@ -6,5 +6,5 @@ const DB_PORT = process.env.DB_HOST
 app.listen(APP_PORT, () => {
   console.log(`App is listening on port ${APP_PORT}`)
   console.log(`App is listening on port ${DB_PORT}`)
-  console.log(`App is listening on port ${process.env.DB_USER}`)
+  console.log(`App is listening on port ${process.env}`)
 })
