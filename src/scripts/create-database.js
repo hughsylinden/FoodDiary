@@ -10,19 +10,23 @@ require('dotenv').config({
   path: path.join(__dirname, envFile),
 });
 
-const { DB_PASSWORD, DB_NAME, DB_USER, DB_HOST, DB_PORT } = process.env;
+const { DB_PASSWORD, DB_NAME, DB_USER, DB_HOST, DB_PORT, CLEARDB_DATABASE_URL, } = process.env;
+
 
 const setUpDatabase = async () => {
+  console.log("HETWERRASDFASFDDSFSFSDFSDFSADFSDFSDFDS")
   try {
-    const db = await mysql.createConnection({
-      host: "us-cdbr-east-05.cleardb.net",
-      user: "b69ca368fb6a03",
-      password: "121c0ef5",
+    const db = CLEARDB_DATABASE_URL 
+    ? await mysql.createConnection(CLEARDB_DATABASE_URL) 
+    : await mysql.createConnection({
+      host: DB_HOST,
+      user: DB_USER,
+      password: DB_PASSWORD,
       port: DB_PORT,
     });
 
-    await db.query(`CREATE DATABASE IF NOT EXISTS heroku_67b59f0fc3ba242`);
-    await db.query(`USE heroku_67b59f0fc3ba242`);
+    !CLEARDB_DATABASE_URL && await db.query(`CREATE DATABASE IF NOT EXISTS ${DB_NAME}`);
+    !CLEARDB_DATABASE_URL && await db.query(`USE ${DB_NAME}`);
     db.close();
   } catch (err) {
     console.log(
@@ -38,5 +42,4 @@ const setUpDatabase = async () => {
     console.log(err);
   }
 };
-
 setUpDatabase();
