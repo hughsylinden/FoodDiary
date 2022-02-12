@@ -24,7 +24,7 @@ async function signUp(req, res) {
   });
 }
 
-async function signIn(req, res) {
+async function signIn(req, res, next) {
   User.findOne({
     where: {
       username: req.body.username,
@@ -32,8 +32,8 @@ async function signIn(req, res) {
   })
     .then((user) => {
       if (!user) {
-        console.log("hey")
-        return res.status(404).json({ error: 'content missing' })
+        console.log("asd")
+        res.status(400).json({message: 'Could not find user.'})
       }else if(user.password===req.body.password){
         res.status(200).send({
           id: user.id,
@@ -42,12 +42,10 @@ async function signIn(req, res) {
         })
       }
       else {
-        res.status(404).send({message:"username or password incorrect"})
+        res.status(404).send({error:"username or password incorrect"})
       }
     })
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-    });
+    .catch(error => next(error))
   }
 
 module.exports = { signIn, signUp };

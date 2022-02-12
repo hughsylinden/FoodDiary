@@ -4,6 +4,7 @@ const MealRouter = require('./routes/meal');
 const UserRouter = require('./routes/user');
 const AuthRouter = require('./routes/auth');
 const cors = require("cors");
+const errorHandler = require('./utils/errorHandler')
 
 const app = express();
 app.use(cors());
@@ -13,5 +14,7 @@ app.use('/fooddiary', FoodDiaryRouter);
 app.use('/meal', MealRouter);
 app.use('/user', UserRouter);
 app.use('/auth', AuthRouter);
+
+app.use(errorHandler)
 
 module.exports = app;
